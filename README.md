@@ -6,4 +6,4 @@ Downloads the linked files from a webite
 
 ## Requirements
 
-See requirements.txt
+See requirements.txt file
