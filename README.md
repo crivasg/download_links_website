@@ -2,8 +2,8 @@
 
 Downloads the linked files from a webite
 
-## Usage:
+## Usage
 
-## Requirements::
+## Requirements
 
 See requirements.txt
