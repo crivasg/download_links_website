@@ -13,18 +13,23 @@ def parse_url(url:str) -> list[str]:
 
     url_list = []
 
-    page = requests.get(url)
+    url_parts = urlparse(url)
+    print(f'{url_parts.query=}')
+    url_data = requests.get(url, allow_redirects=True, timeout=10.0)
     ##print('-'*80,page.text,'-'*80,page.headers['content-type'],sep='\n')
 
+    if url_data.status_code != requests.codes.ok:
+        return url_list
 
-    contents= page.text
+    contents= url_data.text
+    
     
     soup = BeautifulSoup(contents, 'html.parser')
     print(f'{soup.title.name} : {soup.title.string}')
 
     links = soup.find_all('a')
     if len(links) == 0 :
-        return []
+        return url_list
     
     links = [ link for link in links if link.get('href').endswith('.pdf') ]
 
