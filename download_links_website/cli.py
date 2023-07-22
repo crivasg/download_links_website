@@ -10,10 +10,11 @@ def read_user_cli_args():
     parser = argparse.ArgumentParser(prog='download_links_website',
                                      description='Downloads the linked files from an URL')
 
-    parser.add_argument('-u','--url',
+    parser.add_argument('-i','--input',
                         type=str,
+                        default=None,
                         required=True,
-                        help='Enter URL to parse')
+                        help='Enter URL to parse and download')
 
     parser.add_argument('--dest_folder',
                         type=str,
@@ -22,3 +23,4 @@ def read_user_cli_args():
                         help='Destination folder')
                                      
     return parser.parse_args()
+
