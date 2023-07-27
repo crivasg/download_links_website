@@ -35,15 +35,11 @@ def parse_url(url:str) -> list[str]:
         
         links = [ link for link in links if link['href'].endswith('.pdf') ]
 
-
         for link in links:
             pdf_link = link['href']
-
             link = requests.compat.urljoin(url, pdf_link)
-            print(link)
-            
-            if not pdf_link in url_list:
-                url_list.append(pdf_link)
+            if not link in url_list:
+                url_list.append(link)
                 
 
     return url_list
