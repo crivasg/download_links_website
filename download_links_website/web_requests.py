@@ -13,30 +13,38 @@ def parse_url(url:str) -> list[str]:
 
     url_list = []
 
-    url_parts = urlparse(url)
-    print(f'{url_parts.query=}')
-    url_data = requests.get(url, allow_redirects=True, timeout=10.0)
-    ##print('-'*80,page.text,'-'*80,page.headers['content-type'],sep='\n')
+    req = requests.get(url, allow_redirects=True, timeout=10.0)
+    ##print('-'*80,req.text,'-'*80,req.headers['content-type'],sep='\n')
+    print(req.headers['content-type'])
 
-    if url_data.status_code != requests.codes.ok:
+    if req.status_code != requests.codes.ok:
         return url_list
 
-    contents= url_data.text
-    
-    
-    soup = BeautifulSoup(contents, 'html.parser')
-    print(f'{soup.title.name} : {soup.title.string}')
+    if 'application' in req.headers['content-type'].lower():
+        url_list.append(url)
+    else:
+        contents= req.text
+        soup = BeautifulSoup(contents, 'html.parser')
+        print(f'{soup.title.name} : {soup.title.string}')
 
-    links = soup.find_all('a')
-    if len(links) == 0 :
-        return url_list
-    
-    links = [ link for link in links if link.get('href').endswith('.pdf') ]
+        # https://stackoverflow.com/a/5815888
+        links = soup.find_all('a', href=True)
+        
+        if not links :
+            return url_list
+        
+        links = [ link for link in links if link['href'].endswith('.pdf') ]
 
-    for link in links:
-        pdf_link = link.get('href')
-        if not pdf_link in url_list:
-            url_list.append(pdf_link)
+
+        for link in links:
+            pdf_link = link['href']
+
+            link = requests.compat.urljoin(url, pdf_link)
+            print(link)
+            
+            if not pdf_link in url_list:
+                url_list.append(pdf_link)
+                
 
     return url_list
 
