@@ -30,7 +30,7 @@ def parse_url(url:str) -> list[str]:
         # https://stackoverflow.com/a/5815888
         links = soup.find_all('a', href=True)
         
-        if not links :
+        if not links:
             return url_list
         
         links = [ link for link in links if link['href'].endswith('.pdf') ]
