@@ -1,6 +1,8 @@
 @echo off
 setlocal
 
+SET INPUT="%1"
+
 cd /d %~dp0
 
 echo #............................................................#
@@ -11,7 +13,7 @@ echo #                                                            #
 echo #                                                            #
 echo #............................................................#
 echo.
-
+ECHO %INPUT%
 
 if not exist ".venv\Scripts\activate.bat" (
 	call %~dp0\init.bat 
@@ -25,9 +27,9 @@ IF -%1- == -- (
 )
 
 IF -%2- == -- (
-	python -m download_links_website --input "%1"
+	python -m download_links_website --input %INPUT%
 ) ELSE (
-	python -m download_links_website --input "%1" --dest_folder "%2"
+	python -m download_links_website --input %INPUT% --dest_folder "%2"
 )
 CALL .venv\Scripts\deactivate.bat
 
