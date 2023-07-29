@@ -23,7 +23,9 @@ if not exist ".venv\Scripts\activate.bat" (
 )
 
 call .venv\Scripts\activate.bat
-python -m pip install -r requirements.txt
+if exist requirements.txt (
+	python -m pip install -r requirements.txt
+)
 :: python -m pip install --upgrade --force-reinstall -r requirements.txt
 call .venv\Scripts\deactivate.bat
 
